@@ -24,6 +24,8 @@ abstract contract BaseFeeDiscountHook is Ownable {
 
     uint24 public baseValue = 10000;
 
+    uint24 public defaultDiscount = 2;
+
     uint24 public durationOfAttestation = 7;
 
     PoolId[] public poolsInitialized;
@@ -40,9 +42,13 @@ abstract contract BaseFeeDiscountHook is Ownable {
     function getFeeDiscount(address sender, PoolKey memory poolKey) internal view returns (uint24) {
         uint24 poolFee = poolFeeMapping[poolKey.toId()];
         if (_checkAttestations(sender)) {
-            return (poolFee / 2) | LPFeeLibrary.OVERRIDE_FEE_FLAG;
+            return (poolFee / defaultDiscount) | LPFeeLibrary.OVERRIDE_FEE_FLAG;
         }
         return poolFee;
+    }
+
+    function setDefaultDiscount(uint24 _defaultDiscount) external onlyOwner{
+        defaultDiscount = _defaultDiscount;
     }
 
     /*
