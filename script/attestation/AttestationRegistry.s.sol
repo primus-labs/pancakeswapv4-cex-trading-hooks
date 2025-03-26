@@ -13,7 +13,7 @@ contract DeployAttestationRegistry is Script {
 
         // initialize variables from env
         address primusZKTLS = vm.envAddress("PRIMUS_ZKTLS"); // IPrimusZKTLS contract address
-        uint256 submissionFee = 0; // submit fee
+        uint256 submissionFee = 300000000000000; // submit fee
         address payable feeRecipient = payable(vm.envAddress("FEE_RECIPIENT")); // fee recipient
 
         // deploy AttestationRegistry
@@ -40,3 +40,6 @@ contract DeployAttestationRegistry is Script {
         vm.stopBroadcast();
     }
 }
+
+
+// forge script script/attestation/AttestationRegistry.s.sol --rpc-url bsc --broadcast

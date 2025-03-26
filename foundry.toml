@@ -5,3 +5,10 @@ libs = ["lib"]
 solc_version = '0.8.26'
 evm_version = 'cancun'
 via_ir = true
+
+[rpc_endpoints]
+#testnet
+bnbtestnet = "https://data-seed-prebsc-1-s3.binance.org:8545"
+
+#mainnet
+bsc = "https://bsc-dataseed.binance.org"
