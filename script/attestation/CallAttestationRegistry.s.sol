@@ -16,6 +16,8 @@ contract CallAttestationRegistry is Script {
         vm.startBroadcast(senderPrivateKey);
 
         getAttestation(attReg);
+        //setSubmissionFee(attReg);
+        //setPrimusZkTLS(attReg);
 
         vm.stopBroadcast();
     }
@@ -25,8 +27,12 @@ contract CallAttestationRegistry is Script {
         attReg.setPrimusZKTLS(primusAddr);
     }
 
+    function setSubmissionFee(AttestationRegistry attReg) public {
+        attReg.setSubmissionFee(300000000000000);
+    }
+
     function getAttestation(AttestationRegistry attReg) public {
-        Attestation[] memory attestations = attReg.getAttestationByRecipient(0x6b28B1D10D45fD811a9fb48Ed60E394f7cB8D34f);
+        Attestation[] memory attestations = attReg.getAttestationByRecipient(0x4EeF39D1c9f3c8928c8c289c3Dd55e579115221e);
         for (uint256 i = 0; i < attestations.length; i++) {
             Attestation memory attestation = attestations[i];
             console.log("Attestation %d:", i);
