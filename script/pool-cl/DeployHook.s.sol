@@ -42,6 +42,5 @@ contract DeployHookScript is Script {
     }
 }
 /*
-source .env
-forge script script/DeployHook.s.sol --rpc-url $RPC_URL --private-key $PRIVATE_KEY --broadcast
+forge script script/pool-cl/DeployHook.s.sol --rpc-url bsc --broadcast
 */
