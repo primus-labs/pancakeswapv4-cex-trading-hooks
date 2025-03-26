@@ -24,7 +24,10 @@ abstract contract BaseFeeDiscountHook is Ownable {
 
     uint24 public baseValue = 10000;
 
-    uint24 public defaultDiscount = 2;
+    uint24 public defaultDiscount = 50;
+
+    uint24 public constant DISCOUNT_FEE_DENOMINATOR = 100;
+
 
     uint24 public durationOfAttestation = 7;
 
@@ -42,12 +45,12 @@ abstract contract BaseFeeDiscountHook is Ownable {
     function getFeeDiscount(address sender, PoolKey memory poolKey) internal view returns (uint24) {
         uint24 poolFee = poolFeeMapping[poolKey.toId()];
         if (_checkAttestations(sender)) {
-            return (poolFee / defaultDiscount) | LPFeeLibrary.OVERRIDE_FEE_FLAG;
+            return (poolFee * defaultDiscount / DISCOUNT_FEE_DENOMINATOR) | LPFeeLibrary.OVERRIDE_FEE_FLAG;
         }
         return poolFee;
     }
 
-    function setDefaultDiscount(uint24 _defaultDiscount) external onlyOwner{
+    function setDefaultDiscount(uint24 _defaultDiscount) external onlyOwner {
         defaultDiscount = _defaultDiscount;
     }
 
@@ -119,7 +122,7 @@ abstract contract BaseFeeDiscountHook is Ownable {
             // Ensure attestation has a valid timestamp field
             if (
                 (block.timestamp - attestation.timestamp / 1000) <= durationOfAttestation * 24 * 60 * 60
-                    && attestation.value >= baseValue
+                && attestation.value >= baseValue
             ) {
                 return true;
             }
